@@ -1,8 +1,9 @@
 package edu.pdx.cs410J.nforbus;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
+import java.text.DateFormat;
 
-public class PhoneCall extends AbstractPhoneCall {
+public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall> {
 
   String caller;
   String callee;
@@ -44,5 +45,10 @@ public class PhoneCall extends AbstractPhoneCall {
 
     return endTimeAndDate;
     //throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  @Override
+  public int compareTo(PhoneCall o) {
+    return 0;
   }
 }
