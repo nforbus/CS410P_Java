@@ -32,7 +32,7 @@ public class Project2 {
 
     int lengthCheck = args.length;
 
-    for(int i = 7; i < lengthCheck; ++i) {
+    for(int i = 0; i < lengthCheck; ++i) {
       if(args[i].contains("-textFile")) {
 
         if(args[i+1].endsWith(".txt")) {
@@ -47,7 +47,7 @@ public class Project2 {
   private static int checkForReadMe(String[] args) {
     int lengthCheck = args.length;
 
-    for(int i = 7; i < lengthCheck; ++i) {
+    for(int i = 0; i < lengthCheck; ++i) {
       if(args[i].equals("-README")) {
         return 0;
       }
@@ -59,7 +59,7 @@ public class Project2 {
   private static int checkForPrint(String[] args) {
     int lengthCheck = args.length;
 
-    for(int i = 7; i < lengthCheck; ++i) {
+    for(int i = 0; i < lengthCheck; ++i) {
       if(args[i].equals("-print")) {
         return 0;
       }
@@ -113,22 +113,27 @@ public class Project2 {
     }
   }
 
-  private static String[] parseArgs(String[] args) {
+  private static String[] parseArgs(String[] strippedArgs) {
+
+    if(strippedArgs.length < 7) {
+      System.out.println("Missing arguments.");
+      System.exit(1);
+    }
 
     String[] processedArray = new String[5];
 
     //parses customerName - NOTE: blank space is allowed due to the space between + and " in the regex.
-    String newCustomerName = args[0].replaceAll("[^a-zA-Z]+ ", "");
+    String newCustomerName = strippedArgs[0].replaceAll("[^a-zA-Z]+ ", "");
     processedArray[0] = newCustomerName;
 
     //parses callerNum and calleeNum; must be 12 chars, two -'s, 9 numbers 0-9
-    if((args[1].length() != 12) || (args[2].length() != 12)) {
+    if((strippedArgs[1].length() != 12) || (strippedArgs[2].length() != 12)) {
       System.out.println("Phone numbers must be 12 characters long, in the format of nnn-nnn-nnnn");
       System.exit(1);
     }
 
-    char[] testArray1 = args[1].toCharArray();
-    char[] testArray2 = args[2].toCharArray();
+    char[] testArray1 = strippedArgs[1].toCharArray();
+    char[] testArray2 = strippedArgs[2].toCharArray();
 
     for(int i = 0; i < 12; ++i) {
       if(i == 3 || i == 7) {
@@ -138,26 +143,26 @@ public class Project2 {
         }
       }
 
-      else if((Character.isLetter(testArray1[i]))||(Character.isLetter(testArray2[i]))) {
+      else if((!Character.isDigit(testArray1[i]) || (!Character.isDigit(testArray2[i])))) {
         System.out.println("Expected format of nnn-nnn-nnnn");
         System.exit(1);
       }
     }
 
-    processedArray[1] = args[1];
-    processedArray[2] = args[2];
+    processedArray[1] = strippedArgs[1];
+    processedArray[2] = strippedArgs[2];
 
     //parses startDate and endDate; D/M/YYYY and DD/MM/YYYY accepted
-    checkDateWrapper(args[3]);
-    checkDateWrapper(args[5]);
+    checkDateWrapper(strippedArgs[3]);
+    checkDateWrapper(strippedArgs[5]);
 
     //parses startTime and endTime;  HH:MM and H:MM accepted
-    checkTimeWrapper(args[4]);
-    checkTimeWrapper(args[6]);
+    checkTimeWrapper(strippedArgs[4]);
+    checkTimeWrapper(strippedArgs[6]);
 
     //Append time after date, then add to processedArray
-    processedArray[3] = args[3] + " " + args[4];
-    processedArray[4] = args[5] + " " + args[6];
+    processedArray[3] = strippedArgs[3] + " " + strippedArgs[4];
+    processedArray[4] = strippedArgs[5] + " " + strippedArgs[6];
 
     return processedArray;
   }
@@ -176,14 +181,29 @@ public class Project2 {
       }
     }
 
-    //capture args and parse them
-    String[] parsedArray = parseArgs(args);
-
     //check to see what options are selected
     int readMeRequested = checkForReadMe(args);
     int printRequested = checkForPrint(args);
     String fileName = checkForFile(args);
 
+    //Tally up how many options were utilized
+    int optionCount = 0;
+    if(readMeRequested == 0) { ++optionCount; }
+    if(printRequested == 0) { ++optionCount; }
+    if(fileName != null && fileName.length() > 4) { ++optionCount; ++optionCount; }
+
+    //Strip out the options from the args
+    int strippedLength = (args.length - optionCount);
+    String[] strippedArray = new String[strippedLength];
+
+    for(int i = 0; i < strippedLength; i++) {
+      strippedArray[i] = args[i + optionCount];
+    }
+
+    //capture args and parse them
+    String[] parsedArray = parseArgs(strippedArray);
+
+    //Onto execution!
     PhoneBill bill;
     File myFile = null;
 
@@ -191,13 +211,16 @@ public class Project2 {
     if(fileName != null) {
 
       //File and directory management.  If bills folder doesn't exist, it will be created.
+      /*
       File myDir = new File(System.getProperty("user.dir") + "\\" + "bills");
       if(!myDir.exists()) {
         myDir.mkdir();
       }
+      */
 
       //Makes a new file in the bills directory
-      myFile = new File(myDir + "\\" + fileName);
+      //myFile = new File(myDir + "\\" + fileName);
+      myFile = new File(fileName);
 
       //Handle the phonebill creation
       bill = makePhoneBill(myFile, parsedArray[0]);
