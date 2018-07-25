@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.nforbus;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
-import java.text.DateFormat;
 
 public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall> {
 
@@ -23,32 +22,69 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
   public String getCaller() {
 
     return caller;
-    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override
   public String getCallee() {
 
     return callee;
-    //return "This method is not implemented yet";
   }
 
   @Override
   public String getStartTimeString() {
 
     return startTimeAndDate;
-    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override
   public String getEndTimeString() {
 
     return endTimeAndDate;
-    //throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
   @Override
-  public int compareTo(PhoneCall o) {
-    return 0;
+  public int compareTo(PhoneCall toCompare) {
+
+      String[] myDT = this.startTimeAndDate.split(":|/| ");
+      String[] otherDT = toCompare.startTimeAndDate.split(":|/| ");
+
+      if (myDT[5] == "PM") {
+          myDT[5] = "1";
+      } else {
+          myDT[5] = "0";
+      }
+
+      if (otherDT[5] == "PM") {
+          otherDT[5] = "1";
+      } else {
+          otherDT[5] = "0";
+      }
+
+      /* Straight up comparisons between the entire date string were resulting in bad results
+      when the year changed.  So I had to break up the date string by each time aspect
+      Then figure out the sort piece by piece, in the order;
+      Year -> Month -> Day -> AM/PM -> Hour -> Minute -> Phone Number
+       */
+      int diff = myDT[2].compareTo(otherDT[2]);
+      if (diff == 0) {
+          diff = myDT[0].compareTo(otherDT[0]);
+          if (diff == 0) {
+              diff = myDT[1].compareTo(otherDT[1]);
+              if (diff == 0) {
+                  diff = myDT[5].compareTo(otherDT[5]);
+                  if (diff == 0) {
+                      diff = myDT[3].compareTo(otherDT[3]);
+                      if (diff == 0) {
+                          diff = myDT[4].compareTo(otherDT[4]);
+                          if (diff == 0) {
+                              return this.callee.compareTo(toCompare.caller);
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
+      return diff;
   }
 }

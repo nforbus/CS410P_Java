@@ -3,6 +3,7 @@ package edu.pdx.cs410J.nforbus;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
@@ -31,6 +32,8 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
     @Override
     public Collection<PhoneCall> getPhoneCalls() {
+
+        Collections.sort((ArrayList)this.calls);
 
         return this.calls;
     }
