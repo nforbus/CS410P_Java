@@ -9,22 +9,29 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A class for the Pretty Printer.  This offers formatted printing and formatted file writing.
+ */
 public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
 
     private String customerName;
     private File myFile;
 
+    //Default constructor
     PrettyPrinter() {}
 
+    //OL constructor for when user requests STD OUTPUT
     PrettyPrinter(String custName) {
         customerName = custName;
     }
 
+    //OL constructor for when user requests file version
     PrettyPrinter(String custName, File custFile) {
         customerName = custName;
         myFile = custFile;
     }
 
+    //Returns duration of a call in minutes
     public long getDuration(String startTime, String endTime) {
         SimpleDateFormat dateTimeCheck = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
 
@@ -48,6 +55,7 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
         return 0;
     }
 
+    //Pretty prints a phonebill
     public void print(PhoneBill myBill) {
         Collection<PhoneCall> phoneCalls = myBill.getPhoneCalls();
         PrintStream out = System.out;
@@ -65,6 +73,7 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
 
     }
 
+    //Creates a pretty-print text file
     @Override
     public void dump(PhoneBill phoneBill) throws IOException {
 
@@ -92,6 +101,5 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
         }catch(IOException ex) {
             throw ex;
         }
-
     }
 }

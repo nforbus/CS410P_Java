@@ -1,3 +1,5 @@
+
+
 package edu.pdx.cs410J.nforbus;
 
 import edu.pdx.cs410J.PhoneBillDumper;
@@ -7,16 +9,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * A class that takes a phonebill and creates/replaces a text file with the contents.
+ */
 public class TextDumper implements PhoneBillDumper<PhoneBill> {
 
     private String customerName;
     private File myFile;
 
+    //Default and only OL constructor
     TextDumper(String custName, File custFile) {
         customerName = custName;
         myFile = custFile;
     }
 
+    //Creates a text file and populates it with phonebill information.  Overwrites existing info in file.
     @Override
     public void dump(PhoneBill phoneBill) throws IOException {
 

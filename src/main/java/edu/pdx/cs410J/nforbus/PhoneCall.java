@@ -2,6 +2,9 @@ package edu.pdx.cs410J.nforbus;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+/**
+ * A class for phone calls objects which will be added to a phonebill.
+ */
 public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall> {
 
   String caller;
@@ -9,8 +12,10 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
   String startTimeAndDate;
   String endTimeAndDate;
 
+  //Default constructor
   PhoneCall() {}
 
+  //Overloaded constructor
   PhoneCall(String[] callInfo) {
     this.caller = callInfo[1];
     this.callee = callInfo[2];
@@ -18,30 +23,35 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
     this.endTimeAndDate = callInfo[4];
   }
 
+  //Returns caller info
   @Override
   public String getCaller() {
 
     return caller;
   }
 
+  //Returns callee info
   @Override
   public String getCallee() {
 
     return callee;
   }
 
+  //Returns start time string
   @Override
   public String getStartTimeString() {
 
     return startTimeAndDate;
   }
 
+  //Returns end time string
   @Override
   public String getEndTimeString() {
 
     return endTimeAndDate;
   }
 
+  //Compares two phonecalls to see which one should come first in the phonebill
   @Override
   public int compareTo(PhoneCall toCompare) {
 

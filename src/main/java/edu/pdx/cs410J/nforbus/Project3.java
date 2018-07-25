@@ -11,10 +11,11 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * The main class for the CS410J Phone Bill Project
+ * The main class.
  */
 public class Project3 {
 
+  //Calls textparser in order to populate a phonebill object with contents from file
   private static PhoneBill makePhoneBill(File myFile, String customerName) {
 
     PhoneBill newBill = null;
@@ -30,6 +31,7 @@ public class Project3 {
 
   }
 
+  //Checks args to see if pretty option is selected
   private static String checkForPretty(String[] args) {
 
     int lengthCheck = args.length;
@@ -47,6 +49,7 @@ public class Project3 {
     return null;
   }
 
+  //Checks args to see if file options are selected
   private static String checkForFile(String[] args) {
 
     int lengthCheck = args.length;
@@ -62,6 +65,7 @@ public class Project3 {
     return null;
   }
 
+  //Checks args to see if readme option is selected
   private static int checkForReadMe(String[] args) {
     int lengthCheck = args.length;
 
@@ -74,6 +78,7 @@ public class Project3 {
     return 1;
   }
 
+  //Checks args to see if print option is selected
   private static int checkForPrint(String[] args) {
     int lengthCheck = args.length;
 
@@ -86,6 +91,7 @@ public class Project3 {
     return 1;
   }
 
+  //Verifies format matches
   private static int checkFormat(String toCheck, SimpleDateFormat formatCheck) {
 
     try{formatCheck.parse(toCheck);
@@ -96,6 +102,7 @@ public class Project3 {
     return 0;
   }
 
+  //Creates date strings with date/time/am-pm args
   private static String makeDateTime(String theDate, String theTime, String theSuffix) {
 
     int dateSuccess1, dateSuccess2, dateSuccess3, dateSuccess4 = 1;
@@ -148,6 +155,7 @@ public class Project3 {
     return myString;
   }
 
+  //Filters arguments to make sure they are accurate.  Exits when there are problems.
   private static String[] parseArgs(String[] strippedArgs) {
 
     if(strippedArgs.length < 7) {
@@ -194,6 +202,7 @@ public class Project3 {
     return processedArray;
   }
 
+  //Main method
   public static void main(String[] args) {
 
     if(args.length < 9) {

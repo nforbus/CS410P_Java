@@ -8,16 +8,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * A class that parses files and returns a phonebill.
+ */
 public class TextParser implements PhoneBillParser<PhoneBill> {
 
     private String customerName;
     private File myFile;
 
+    //Default and only OL constructor
     TextParser(String custName, File custFile) {
         customerName = custName;
         myFile = custFile;
     }
 
+    //Populates a phonebill object from a text file
     @Override
     public PhoneBill parse() throws ParserException {
 
