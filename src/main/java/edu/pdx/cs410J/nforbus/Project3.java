@@ -134,6 +134,8 @@ public class Project3 {
       System.exit(1);
     }
 
+    theSuffix = theSuffix.toUpperCase();
+
     if((!theSuffix.equals("AM")) && (!theSuffix.equals("PM"))) {
       System.out.println("Improper suffix selected.  Should be AM or PM.");
       System.exit(1);
